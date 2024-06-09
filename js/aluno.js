@@ -10,28 +10,28 @@ const closeModal = () => {
     document.getElementById('modal').classList.remove('active')
 }
 
-const getLocalStorage = () => JSON.parse(localStorage.getItem('db_funcionario')) ?? []
-const setLocalStorage = (dbFuncionario) => localStorage.setItem("db_funcionario", JSON.stringify(dbFuncionario))
+const getLocalStorage = () => JSON.parse(localStorage.getItem('db_aluno')) ?? []
+const setLocalStorage = (dbAluno) => localStorage.setItem("db_aluno", JSON.stringify(dbAluno))
 
 // CRUD - create read update delete
-const deleteFuncionario = (index) => {
-    const dbFuncionario = readFuncionario()
-    dbFuncionario.splice(index, 1)
-    setLocalStorage(dbFuncionario)
+const deleteAluno = (index) => {
+    const dbAluno = readAluno()
+    dbAluno.splice(index, 1)
+    setLocalStorage(dbAluno)
 }
 
-const updateFuncionario = (index, funcionario) => {
-    const dbFuncionario = readFuncionario()
-    dbFuncionario[index] = funcionario
-    setLocalStorage(dbFuncionario)
+const updateAluno = (index, aluno) => {
+    const dbAluno = readAluno()
+    dbAluno[index] = aluno
+    setLocalStorage(dbAluno)
 }
 
-const readFuncionario = () => getLocalStorage()
+const readAluno = () => getLocalStorage()
 
-const createFuncionario = (funcionario) => {
-    const dbFuncionario = getLocalStorage()
-    dbFuncionario.push (funcionario)
-    setLocalStorage(dbFuncionario)
+const createAluno = (aluno) => {
+    const dbAluno = getLocalStorage()
+    dbAluno.push (aluno)
+    setLocalStorage(dbAluno)
 }
 
 const isValidFields = () => {
@@ -46,10 +46,10 @@ const clearFields = () => {
 }
 
 //Campos para serem salvos
-const saveFuncionario = () => {
+const saveAluno = () => {
     debugger
     if (isValidFields()) {
-        const funcionario = {
+        const aluno = {
             nome: document.getElementById('nome').value,
             matricula: document.getElementById('matricula').value,
             telefone: document.getElementById('telefone').value,
@@ -60,16 +60,16 @@ const saveFuncionario = () => {
             complemento: document.getElementById('complemento').value,
             cidade: document.getElementById('cidade').value,
             estado: document.getElementById('estado').value,
-            cpf: document.getElementById('cpf').value,
-            funcao: document.getElementById('funcao').value
+            curso: document.getElementById('curso').value,
+            serie: document.getElementById('serie').value
         }
         const index = document.getElementById('nome').dataset.index
         if (index == 'new') {
-            createFuncionario(funcionario)
+            createAluno(aluno)
             updateTable()
             closeModal()
         } else {
-            updateFuncionario(index, funcionario)
+            updateAluno(index, aluno)
             updateTable()
             closeModal()
         }
@@ -77,56 +77,56 @@ const saveFuncionario = () => {
 }
 
 //Tabela de Apresentação
-const createRow = (funcionario, index) => {
+const createRow = (aluno, index) => {
     const newRow = document.createElement('tr')
     newRow.innerHTML = `
-        <td>${funcionario.nome}</td>
-        <td>${funcionario.matricula}</td>
-        <td>${funcionario.cpf}</td>
-        <td>${funcionario.funcao}</td>
-        <td>${funcionario.celular}</td>
-        <td>${funcionario.email}</td>
+        <td>${aluno.nome}</td>
+        <td>${aluno.matricula}</td>
+        <td>${aluno.curso}</td>
+        <td>${aluno.serie}</td>
+        <td>${aluno.celular}</td>
+        <td>${aluno.email}</td>
         <td>
             <button type="button" class="button green" id="edit-${index}">Editar</button>
             <button type="button" class="button red" id="delete-${index}" >Excluir</button>
         </td>
     `
-    document.querySelector('#tableFuncionario>tbody').appendChild(newRow)
+    document.querySelector('#tableAluno>tbody').appendChild(newRow)
 }
 
 const clearTable = () => {
-    const rows = document.querySelectorAll('#tableFuncionario>tbody tr')
+    const rows = document.querySelectorAll('#tableAluno>tbody tr')
     rows.forEach(row => row.parentNode.removeChild(row))
 }
 
 const updateTable = () => {
-    const dbFuncionario = readFuncionario()
+    const dbAluno = readAluno()
     clearTable()
-    dbFuncionario.forEach(createRow)
+    dbAluno.forEach(createRow)
 }
 
 //Apresentação tabela modal
-const fillFields = (funcionario) => {
-    document.getElementById('nome').value = funcionario.nome
-    document.getElementById('matricula').value = funcionario.matricula
-    document.getElementById('telefone').value = funcionario.telefone
-    document.getElementById('celular').value = funcionario.celular
-    document.getElementById('email').value = funcionario.email
-    document.getElementById('rua').value = funcionario.rua
-    document.getElementById('numero').value = funcionario.numero
-    document.getElementById('complemento').value = funcionario.complemento
-    document.getElementById('cidade').value = funcionario.cidade
-    document.getElementById('estado').value = funcionario.estado
-    document.getElementById('cpf').value = funcionario.cpf
-    document.getElementById('funcao').value = funcionario.funcao   
+const fillFields = (aluno) => {
+    document.getElementById('nome').value = aluno.nome
+    document.getElementById('matricula').value = aluno.matricula
+    document.getElementById('telefone').value = aluno.telefone
+    document.getElementById('celular').value = aluno.celular
+    document.getElementById('email').value = aluno.email
+    document.getElementById('rua').value = aluno.rua
+    document.getElementById('numero').value = aluno.numero
+    document.getElementById('complemento').value = aluno.complemento
+    document.getElementById('cidade').value = aluno.cidade
+    document.getElementById('estado').value = aluno.estado
+    document.getElementById('curso').value = aluno.curso
+    document.getElementById('serie').value = aluno.serie   
 
-    document.getElementById('nome').dataset.index = funcionario.index
+    document.getElementById('nome').dataset.index = aluno.index
 }
 
-const editFuncionario = (index) => {
-    const funcionario = readFuncionario()[index]
-    funcionario.index = index
-    fillFields(funcionario)
+const editAluno = (index) => {
+    const aluno = readAluno()[index]
+    aluno.index = index
+    fillFields(aluno)
     openModal()
 }
 
@@ -136,17 +136,17 @@ const editDelete = (event) => {
         const [action, index] = event.target.id.split('-')
 
         if (action == 'edit') {
-            editFuncionario(index)
+            editAluno(index)
         } else {
-            const funcionario = readFuncionario()[index]
+            const aluno = readAluno()[index]
             let avisoDelete = document.querySelector('#avisoDelete')
 
-            avisoDelete.textContent = `Deseja realmente excluir o funcionario ${funcionario.nome}`
+            avisoDelete.textContent = `Deseja realmente excluir o aluno ${aluno.nome}`
             openModal2()
 
         // APAGAR O REGISTRO
             document.getElementById('apagar').addEventListener('click', () => {
-                deleteFuncionario(index)
+                deleteAluno(index)
                 updateTable()
                 closeModal2()
             })
@@ -157,7 +157,7 @@ const editDelete = (event) => {
 updateTable()
 
 // Eventos
-document.getElementById('cadastrarFuncionario')
+document.getElementById('cadastrarAluno')
     .addEventListener('click', openModal)
 
 document.getElementById('modalClose')
@@ -168,9 +168,9 @@ document.getElementById('modalClose2')
     .addEventListener('click', closeModal2)
 
 document.getElementById('salvar')
-    .addEventListener('click', saveFuncionario)
+    .addEventListener('click', saveAluno)
 
-document.querySelector('#tableFuncionario>tbody')
+document.querySelector('#tableAluno>tbody')
     .addEventListener('click', editDelete)
 
 document.getElementById('cancelar')
