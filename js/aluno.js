@@ -13,7 +13,7 @@ const closeModal = () => {
 const getLocalStorage = () => JSON.parse(localStorage.getItem('db_aluno')) ?? []
 const setLocalStorage = (dbAluno) => localStorage.setItem("db_aluno", JSON.stringify(dbAluno))
 
-// CRUD - create read update delete
+// CRUD - create read update delete 
 const deleteAluno = (index) => {
     const dbAluno = readAluno()
     dbAluno.splice(index, 1)

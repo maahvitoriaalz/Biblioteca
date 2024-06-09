@@ -25,4 +25,4 @@ sidebarToggle2.addEventListener("click", () => {
     }else{
         localStorage.setItem("status", "open");
     }
-});
+}); 

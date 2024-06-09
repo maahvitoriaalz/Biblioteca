@@ -168,4 +168,4 @@ document.getElementById('cancelar')
 
 // modal apagar
 document.getElementById('cancelar2')
-    .addEventListener('click', closeModal2)
+    .addEventListener('click', closeModal2) 
